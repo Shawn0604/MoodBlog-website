@@ -1,0 +1,37 @@
+.emotion-advice-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.emotion-advice-content {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  margin: auto; /* 确保水平居中 */
+}
+
+.calendar-style {
+  margin-bottom: 20px;
+}
+
+.emotion-data {
+  margin-top: 20px;
+}
+
+.button-style {
+  @apply bg-gray-900 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.button-style:disabled {
+  @apply bg-gray-900;
+}
+
+.emotion-data p {
+  white-space: pre-wrap; /* 保持空白符，並允許換行 */
+}
+
