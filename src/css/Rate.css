@@ -35,3 +35,7 @@
   white-space: pre-wrap; /* 保持空白符，並允許換行 */
 }
 
+.button-with-border {
+  border: 2px solid black;
+}
+

@@ -50,7 +50,7 @@ export default function EditDiary() {
         description: moodDescription // 將選擇的心情轉換為文字值
       };
   
-      fetch('https://mood-blog-backend-ruddy.vercel.app/createDiary', {
+      fetch('https://mood-blog-backend-ruddy.vercel.app/gettodaySessions/createDiary', {
       // fetch('http://localhost:3000/createDiary', {
         method: 'POST',
         headers: {
@@ -80,7 +80,7 @@ export default function EditDiary() {
   console.log("diaryId: ", diaryId);
   console.log("mood: ", mood);
   if (diaryId) {
-    axios.put(`https://mood-blog-backend-ruddy.vercel.app/updateDiary/${diaryId}`, {
+    axios.put(`https://mood-blog-backend-ruddy.vercel.app/gettodaySessions/updateDiary/${diaryId}`, {
     // axios.put(`http://localhost:3000/updateDiary/${diaryId}`, {
       content: content,
       mood: mood,
@@ -111,7 +111,7 @@ export default function EditDiary() {
     console.log("user:", user.id);
     console.log("content:", content);
     console.log("diaryId:", diaryId);
-    const url = `https://mood-blog-backend-ruddy.vercel.app/getAiResponse/${diaryId}`;
+    const url = `https://mood-blog-backend-ruddy.vercel.app/gettodaySessions/getAiResponse/${diaryId}`;
     // const url = `http://localhost:3000/getAiResponse/${diaryId}`;
     
     axios.post(url, {
