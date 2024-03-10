@@ -33,8 +33,8 @@ export default function MoodBlogComponent() {
     console.log(sessionId);
     console.log(user);
     console.log(content);
-    axios.post(`https://mood-blog-backend-ruddy.vercel.app/gettodaySessions/getAIresponse/sessions/${sessionId}/content`, {
     // axios.post(`http://localhost:3000/getAIresponse/sessions/${sessionId}/content`, {
+    axios.post(`https://mood-blog-backend-ruddy.vercel.app/getAIresponse/sessions/${sessionId}/content`, {
       user: user,
       content: content
     }).then((res) => {

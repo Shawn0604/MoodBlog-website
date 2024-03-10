@@ -7,8 +7,6 @@ import { Button } from "@material-tailwind/react";
 import { Modal } from "@material-ui/core";
 import { useUser } from "@clerk/clerk-react";
 import axios from 'axios';
-import html2canvas from 'html2canvas';
-
 
 
 export default function CalendarPage() {
@@ -36,8 +34,8 @@ export default function CalendarPage() {
 
   const fetchDiaryList = (selectedDate) => {
     const formattedDate = formatDate(selectedDate); // 确保这里的 formatDate 函数返回的格式与后端期望的一致
-    axios.get(`https://mood-blog-backend-ruddy.vercel.app/gettodaySessions/${user.id}?date=${formattedDate}`)
-    // axios.get(`http://localhost:3000/gettodaySessions/${user.id}?date=${formattedDate}`)
+    // axios.get(`/gettodaySessions/${user.id}?date=${formattedDate}`)
+    axios.get(`https://mood-blog-backend-ruddy.vercel.app//gettodaySessions/${user.id}?date=${formattedDate}`)
       .then((res) => {
         console.log(res.data);
         setDiaryContentsForSelectedDate(res.data);
@@ -60,7 +58,7 @@ export default function CalendarPage() {
   
   const saveEdits = (diaryId) => {
     const editedEntry = editedEntries[diaryId];
-    axios.put(`https://mood-blog-backend-ruddy.vercel.app/gettodaySessions/modify/${diaryId}`, editedEntry)
+    axios.put(`https://mood-blog-backend-ruddy.vercel.app/modify/${diaryId}`, editedEntry)
     // axios.put(`http://localhost:3000/modify/${diaryId}`, editedEntry)
   .then(response => {
     // 处理成功响应
@@ -81,6 +79,19 @@ export default function CalendarPage() {
 
   };
 
+  // const saveEdits = (diaryId) => {
+  //   const { content, createdAt } = editedEntries[diaryId]; // 从状态中获取内容和创建时间
+  //   axios.put(`http://localhost:3000/modify/${diaryId}`, { content, createdAt })
+  //     .then(response => {
+  //       console.log("日记更新成功", response.data);
+  //       // 在这里可能需要重新获取该日期的所有日记来更新UI
+  //       fetchDiaryList(new Date(createdAt)); // 重新获取日记列表，使用createdAt作为参数
+  //     })
+  //     .catch(error => {
+  //       console.error("更新日记失败", error.response ? error.response.data : error);
+  //       // 错误处理...
+  //     });
+  // };
   
 
   const toggleEdit = (diaryId) => {
@@ -125,10 +136,10 @@ export default function CalendarPage() {
 
   useEffect(() => {
     // 假设这是从后端获取日记内容的函数
-    axios.get(`https://mood-blog-backend-ruddy.vercel.app/gettodaySessions/getAllSessions/${user.id}`)
+    axios.get(`https://mood-blog-backend-ruddy.vercel.app/getAllSessions/${user.id}`)
     // axios.get(`http://localhost:3000/getAllSessions/${user.id}`)
       .then((res) => {
-        // console.log(res.data); 
+        console.log(res.data); 
         setDiaryContentsForSelectedDate(res.data);
         // 初始化编辑状态为false
         let initialEditStatus = {};
@@ -150,7 +161,7 @@ export default function CalendarPage() {
 
   const searchDiaryHandler = (user, selectedDate) => {
     setLoading(true);
-    axios.get(`https://mood-blog-backend-ruddy.vercel.app/gettodaySessions/getAllSessions/${user.id}`)
+    axios.get(`https://mood-blog-backend-ruddy.vercel.app/getAllSessions/${user.id}`)
     // axios.get(`http://localhost:3000/getAllSessions/${user.id}`)
       .then((res) => {
         const filteredDiaries = res.data.filter(entry => entry.createdAt.includes(selectedDate));
@@ -162,209 +173,6 @@ export default function CalendarPage() {
         setLoading(false);
       })
   };
-
-
-const handleShare1 = (diaryId) => {
-  const diaryElement = document.getElementById(`diary-entry-${diaryId}`);
-
-  if (diaryElement) {
-    html2canvas(diaryElement).then(canvas => {
-      // 将canvas转换为图像
-      const image = canvas.toDataURL('image/png');
-      
-      // 创建一个临时的<a>元素用于下载
-      const link = document.createElement('a');
-      link.href = image;
-      link.download = `captured-diary-${diaryId}.png`; // 指定下载的文件名
-      document.body.appendChild(link); // 将<a>元素添加到文档中
-      link.click(); // 触发点击事件，开始下载
-      document.body.removeChild(link); // 移除<a>元素
-
-    }).catch(error => {
-      console.error("html2canvas error:", error);
-    });
-  } else {
-    console.error('未找到要截图的元素');
-  }
-};
-
-// const convertAndDownloadImage = (diaryId) => {
-//   const diaryElement = document.getElementById(`diary-entry-${diaryId}`);
-
-//   if (diaryElement) {
-//     html2canvas(diaryElement).then(canvas => {
-//       // 将canvas转换为图像
-//       const image = canvas.toDataURL('image/png');
-      
-//       // 创建一个临时的<a>元素用于下载
-//       const link = document.createElement('a');
-//       link.href = image;
-//       link.download = `captured-diary-${diaryId}.png`; // 指定下载的文件名
-//       document.body.appendChild(link); // 将<a>元素添加到文档中
-//       link.click(); // 触发点击事件，开始下载
-//       document.body.removeChild(link); // 移除<a>元素
-//     }).catch(error => {
-//       console.error("html2canvas error:", error);
-//     });
-//   } else {
-//     console.error('未找到要截图的元素');
-//   }
-// };
-
-const handleShareAndUpload = async (diaryId) => {
-  const diaryElement = document.getElementById(`diary-entry-${diaryId}`);
-  if (!diaryElement) {
-    console.error('未找到要截图的元素');
-    return;
-  }
-
-  try {
-    const canvas = await html2canvas(diaryElement, {
-      ignoreElements: (element) => {
-        return element.classList.contains('text-blue-500') || // 匹配包含此類的元素
-               element.classList.contains('text-blue-700') ||
-               element.classList.contains('mr-2');
-      }
-    });
-
-    const imageBase64 = canvas.toDataURL('image/png').split(',')[1]; // 移除Base64前缀
-
-    const response = await fetch('https://mood-blog-backend-ruddy.vercel.app/gettodaySessions/api/upload', {
-    // const response = await fetch('http://localhost:3000/api/upload', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ image: imageBase64 })
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      if (data.success) {
-        console.log('Image uploaded successfully to Imgur:', data.link);
-        // 调用分享到Facebook的函数
-        shareToFacebook(data.link);
-      } else {
-        console.error('Failed to upload image to Imgur:', data.error);
-      }
-    } else {
-      console.error('非成功響應', response.status);
-    }
-  } catch (error) {
-    console.error('處理圖像時出錯:', error);
-  }
-};
-
-
-function shareToFacebook(imgurLink) {
-  const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(imgurLink)}`;
-  window.open(facebookShareUrl, '_blank');
-}
-
-
-
-
-
-
-const uploadAndShareImage = (imageBase64) => {
-  return new Promise((resolve, reject) => {
-    const myHeaders = new Headers();
-    myHeaders.append("Authorization", "Client-ID 9f3340dc83900e8"); // 替换为您的Imgur客户端ID
-
-    const formdata = new FormData();
-    formdata.append("image", imageBase64.split(',')[1]); // 移除Base64图像数据前的"data:image/png;base64,"部分
-    for (let [key, value] of formdata.entries()) {
-      console.log(`${key}: ${value}`);
-      // 如果你想看到base64编码的前100个字符
-      console.log(`${key}: ${value.slice(0, 10)}`);
-  }
-
-    fetch("https://api.imgur.com/3/image", {
-      method: 'POST',
-      headers: myHeaders,
-      body: formdata,
-    })
-    .then(response => response.json())
-    .then(result => {
-      if (result.success) {
-        console.log('Image uploaded successfully to Imgur.', result.data.link);
-        resolve(result.data.link); // 返回Imgur图像URL
-      } else {
-        console.error('Failed to upload image to Imgur:', result.data.error);
-        reject(new Error('Failed to upload image to Imgur'));
-      }
-    })
-    .catch(error => {
-      console.error('Error uploading image to Imgur:', error);
-      reject(error);
-    });
-  });
-};
-
-
-  
-  // return new Promise((resolve, reject) => {
-  //   const myHeaders = new Headers();
-  //   // 确保使用您自己的Imgur Client ID
-  //   myHeaders.append("Authorization", "Client-ID 9f3340dc83900e8");
-    
-  //   const formdata = new FormData();
-  //   // 移除Base64图像数据前的"data:image/png;base64,"部分
-  //   formdata.append("image", imageBase64.split(',')[1]);
-  //   console.log(imageBase64.slice(0, 100)); // 打印Base64数据的前100个字符
-
-
-  //   fetch("https://api.imgur.com/3/image", {
-  //     method: 'POST',
-  //     headers: myHeaders,
-  //     body: formdata,
-  //   })
-  //   .then(response => response.json())
-  //   .then(result => {
-  //     if (result.success) {
-  //       console.log('Image uploaded successfully to Imgur.', result);
-  //       resolve(result.data); // 解析Promise并返回Imgur返回的数据对象
-  //     } else {
-  //       console.error('Failed to upload image to Imgur. Response:', result);
-  //       reject(new Error(`Failed to upload image to Imgur. Error: ${result.data.error}`));
-  //     }
-  //   })
-  //   .catch(error => {
-  //     console.error('Error uploading image to Imgur. Fetch error:', error);
-  //     reject(error);
-  //   });
-  // });
-
-
-
-
-
-
-
-
-
-
-
-// const shareToFacebook = (imgurUrl) => {
-//   if (window.FB) {
-//     window.FB.ui({
-//       method: 'share',
-//       href: imgurUrl,
-//     }, function(response){
-//       if (response && !response.error_message) {
-//         alert('Sharing succeeded.');
-//       } else {
-//         alert('Error while sharing.');
-//       }
-//     });
-//   } else {
-//     console.error('Facebook SDK not loaded.');
-//   }
-// };
-
-
-
-
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -394,8 +202,7 @@ const uploadAndShareImage = (imageBase64) => {
             <div className="overflow-y-auto modal-content p-4 bg-white rounded-lg shadow-md w-1/2 mx-auto h-2/3 my-12">
               <div className="text-xl font-bold mb-4">{formatDate(date)} Diary Content</div>
               {diaryContentsForSelectedDate.map((entry, index) => (
-  // <div key={index} className="p-4 mb-4 border border-gray-300 rounded-lg relative">
-  <div key={index} id={`diary-entry-${entry.diaryId}`} className="p-4 mb-4 border border-gray-300 rounded-lg relative">
+  <div key={index} className="p-4 mb-4 border border-gray-300 rounded-lg relative">
     {/* <p className="text-gray-500">ID: {entry.diaryId}</p> */}
     <p className="text-gray-500">心情: {entry.mood}</p>
     <p className="text-gray-500">心情描述: {entry.description}</p>
@@ -416,14 +223,16 @@ const uploadAndShareImage = (imageBase64) => {
         className="text-blue-500 hover:text-blue-700 mr-2"
         onClick={() => toggleEdit(entry.diaryId)}
       >
-        {editStatus[entry.diaryId] ? "確定" : "修改"}
+        {editStatus[entry.diaryId] ? "确定" : "修改"}
       </button>
 
-      {/* 下載按钮 */}
-
-<button className="text-blue-500 hover:text-blue-700 mr-2" onClick={() => handleShare1(entry.diaryId)}>下載</button>
-<button className="text-blue-500 hover:text-blue-700 mr-2" onClick={() => handleShareAndUpload(entry.diaryId)}>分享</button>
-
+      {/* 分享按钮 */}
+      <button
+        className="text-blue-500 hover:text-blue-700 mr-2"
+        onClick={() => handleShare(entry.diaryId)}
+      >
+        分享
+      </button>
     </div>
   </div>
 ))}

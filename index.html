@@ -31,33 +31,4 @@
   <script type="module" src="/src/main.jsx"></script>
 </body>
 
-<body class="font-inter antialiased bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400">
-  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js"></script>
-  <script>
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId      : '1091875882080787', // 使用您自己的Facebook应用ID
-        cookie     : true,  // 启用cookie以允许服务器访问会话
-        xfbml      : true,  // 解析社交插件等
-        version    : 'v19.0' // 确保此处的版本号与下面加载SDK的版本号一致
-      });
-      
-      FB.AppEvents.logPageView();   
-    };
-
-    (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      // 确保此处的 appId 参数已被正确替换，并且版本号与FB.init中的一致
-      js.src = "https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v19.0&appId=1091875882080787&autoLogAppEvents=1";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-  </script>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
-  <!-- 页面其他内容 -->
-</body>
-
-
-
 </html>
