@@ -60,7 +60,7 @@ export default function CalendarPage() {
   
   const saveEdits = (diaryId) => {
     const editedEntry = editedEntries[diaryId];
-    axios.put(`https://mood-blog-backend-ruddy.vercel.app/gettodaySessions/modify/${diaryId}`, editedEntry)
+    axios.put(`https://mood-blog-backend-ruddy.vercel.app/modify/${diaryId}`, editedEntry)
     // axios.put(`http://localhost:3000/modify/${diaryId}`, editedEntry)
   .then(response => {
     // 处理成功响应
@@ -125,7 +125,7 @@ export default function CalendarPage() {
 
   useEffect(() => {
     // 假设这是从后端获取日记内容的函数
-    axios.get(`https://mood-blog-backend-ruddy.vercel.app/gettodaySessions/getAllSessions/${user.id}`)
+    axios.get(`https://mood-blog-backend-ruddy.vercel.app/getAllSessions/${user.id}`)
     // axios.get(`http://localhost:3000/getAllSessions/${user.id}`)
       .then((res) => {
         // console.log(res.data); 
@@ -150,7 +150,7 @@ export default function CalendarPage() {
 
   const searchDiaryHandler = (user, selectedDate) => {
     setLoading(true);
-    axios.get(`https://mood-blog-backend-ruddy.vercel.app/gettodaySessions/getAllSessions/${user.id}`)
+    axios.get(`https://mood-blog-backend-ruddy.vercel.app/getAllSessions/${user.id}`)
     // axios.get(`http://localhost:3000/getAllSessions/${user.id}`)
       .then((res) => {
         const filteredDiaries = res.data.filter(entry => entry.createdAt.includes(selectedDate));
@@ -229,7 +229,7 @@ const handleShareAndUpload = async (diaryId) => {
 
     const imageBase64 = canvas.toDataURL('image/png').split(',')[1]; // 移除Base64前缀
 
-    const response = await fetch('https://mood-blog-backend-ruddy.vercel.app/gettodaySessions/api/upload', {
+    const response = await fetch('https://mood-blog-backend-ruddy.vercel.app/api/upload', {
     // const response = await fetch('http://localhost:3000/api/upload', {
       method: 'POST',
       headers: {

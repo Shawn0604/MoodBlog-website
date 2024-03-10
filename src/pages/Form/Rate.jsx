@@ -82,7 +82,7 @@ export default function EmotionAdvicePage() {
     const endDate = end.toISOString();
     
     setLoading(true); // 开始请求前，设置加载状态为true
-    axios.get(`https://mood-blog-backend-ruddy.vercel.app/gettodaySessions/getEmotionAnalysis/${user.id}?startDate=${startDate}&endDate=${endDate}`)
+    axios.get(`https://mood-blog-backend-ruddy.vercel.app/getEmotionAnalysis/${user.id}?startDate=${startDate}&endDate=${endDate}`)
     // axios.get(`http://localhost:3000/getEmotionAnalysis/${user.id}?startDate=${startDate}&endDate=${endDate}`)
       .then(response => {
         console.log("Received data from backend:", response.data); // 打印接收到的数据
