@@ -20,6 +20,7 @@
     "chart.js": "^4.3.0",
     "chartjs-adapter-moment": "^1.0.1",
     "dotenv": "^16.3.1",
+    "html2canvas": "^1.4.1",
     "gh-pages": "^6.1.1",
     "material-kit": "^2.0.4",
     "moment": "^2.29.4",
