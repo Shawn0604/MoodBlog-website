@@ -13,12 +13,12 @@
 ### [ 使用者操作流程圖 ]
 ![image](https://github.com/Shawn0604/MoodBlog-website/blob/main/image/%E4%BD%BF%E7%94%A8%E8%80%85%E6%93%8D%E4%BD%9C%E6%B5%81%E7%A8%8B%E5%9C%96.JPG)
 ### [ 技術架構 ]
-前端：React, Tailwind CSS
-後端：Express.js
+前端：React, Tailwind CSS  
+後端：Express.js  
 人工智慧：GPT3.5  
-開發工具：Git, Github
-資料庫：MongoDB
-部屬服務器：Vercel
+開發工具：Git, Github  
+資料庫：MongoDB  
+部屬服務器：Vercel  
 ### [ 目錄架構 ]
 ![image](https://github.com/Shawn0604/MoodBlog-website/blob/main/image/%E6%8A%80%E8%A1%93%E6%9E%B6%E6%A7%8B.JPG)
 
