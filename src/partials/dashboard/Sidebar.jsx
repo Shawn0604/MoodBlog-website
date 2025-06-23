@@ -166,12 +166,14 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               {sitemap.map((category) =>
                 category.sublinks ? (
                   <SidebarLinkGroup
+                  key={category.path} 
                     activecondition={pathname.includes(category.path)}
                   >
                     {(handleClick, open) => (
                       <>
                         <a
                           href="#0"
+                          key={category.path} 
                           className={`block text-orange-950 truncate transition duration-150 ${pathname.includes(category.path)
                             ? "hover:text-slate-200"
                             : "hover:text-white"
@@ -208,23 +210,23 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
                           <ul className={`pl-9 mt-1 ${!open && "hidden"}`}>
                             {category.sublinks.map((subCategory) => (
-                              <li className="mb-1 last:mb-0">
-                                <NavLink
-                                  end
-                                  to={`/zoo/${category.path}/${subCategory.path}`}
-                                  className={({ isActive }) =>
-                                    `block transition duration-150 truncate ${isActive
-                                      ? "text-orange-950"
-                                      : "text-slate-400 hover:text-slate-200"
-                                    }`
-                                  }
-                                >
-                                  <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                    {subCategory.title}
-                                  </span>
-                                </NavLink>
-                              </li>
-                            ))}
+  <li className="mb-1 last:mb-0" key={subCategory.path}>
+    <NavLink
+      end
+      to={`/zoo/${category.path}/${subCategory.path}`}
+      className={({ isActive }) =>
+        `block transition duration-150 truncate ${isActive
+          ? "text-orange-950"
+          : "text-slate-400 hover:text-slate-200"
+        }`
+      }
+    >
+      <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+        {subCategory.title}
+      </span>
+    </NavLink>
+  </li>
+))}
                           </ul>
                         </div>
                       </>
