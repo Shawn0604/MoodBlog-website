@@ -23,5 +23,7 @@
 ### [ 目錄架構 ]
 ![image](https://github.com/Shawn0604/MoodBlog-website/blob/main/image/%E6%8A%80%E8%A1%93%E6%9E%B6%E6%A7%8B.JPG)
 
-
+###  [ 如何在本地端執行 ]
+- 設定環境變數(.env)
+- 執行npm run dev
 #### 感謝您對本專案的關注，如果您對本專案有任何看法或是意見，請不吝惜提供意見。感謝。
